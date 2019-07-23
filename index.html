@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="bulma.css">
+
+  <title></title>
+
+</head>
+
+<body>
+
+  <div id='neko'>
+    <h3>{{ title }}</h3>
+    <button type="button" v-on:click="verAdivinanza" name="button">PULSA</button>
+
+    <p id='guess'>
+
+    </p>
+
+    <button v-on:click='verPistas'>Pistas!</button>
+    <div id='answer'>
+
+    </div>
+    <input 
+      v-model="respuesta"
+      v-on:keyup.enter="correcta"
+      placeholder="Respuesta"
+    >
+
+  </div>
+  
+
+  <script src='vue.js'></script>
+
+  <script src='adivinanzas.js'></script>
+
+</body>
+
+</html>
