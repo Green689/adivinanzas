@@ -11,7 +11,11 @@ var app = new Vue({
 
       {
 
-        adi: 'En la cocina hago llorar, pero en el plato adorno el manjar', res: 'LA CEBOLLA', most: true, cor: true, pist: {
+        adi: 'En la cocina hago llorar, pero en el plato adorno el manjar', 
+        res: 'LA CEBOLLA', 
+        most: true, 
+        cor: true, 
+        pist: {
 
           pist1: {
 
@@ -37,7 +41,11 @@ var app = new Vue({
 
       {
 
-        adi: 'No me puedo mover sin alguien a la par mia; puedo achicarme y crecer muchos metros en un dia', res: 'LA SOMBRA', most: true, cor: true, pist: {
+        adi: 'No me puedo mover sin alguien a la par mia; puedo achicarme y crecer muchos metros en un dia', 
+        res: 'LA SOMBRA', 
+        most: true, 
+        cor: true, 
+        pist: {
 
           pist1: {
 
@@ -63,7 +71,11 @@ var app = new Vue({
 
       {
 
-        adi: 'Cual es la cosa que cruda no existe ni puede ser, y cuando esta cosida no te la puedes comer?', res: 'LA CAL', most: true, cor: true, pist: {
+        adi: 'Cual es la cosa que cruda no existe ni puede ser, y cuando esta cosida no te la puedes comer?', 
+        res: 'LA CAL', 
+        most: true, 
+        cor: true, 
+        pist: {
 
           pist1: {
 
@@ -105,11 +117,7 @@ var app = new Vue({
 
         })
 
-    }else {
-
-      this.verAdivinanza;
-
-    }      
+    }    
 
   },
 
@@ -120,29 +128,32 @@ var app = new Vue({
          this.numero = Math.floor(Math.random() * this.adivinanzas.length);
          this.$nextTick(function () {
           this.$el.textContent
-
         })
         
     },
 
     verAdivinanza: function(){
+     
       this.numeroRandom();
 
-      if (this.adivinanzas[this.numero].most) {
+    if (this.adivinanzas[this.numero].most) {
 
-        document.querySelector('#guess').innerHTML = this.adivinanzas[this.numero].adi;
-        
-        this.adivinanzas[this.numero].most = false;
+      document.querySelector('#guess').innerHTML = this.adivinanzas[this.numero].adi;
+
+      this.adivinanzas[this.numero].most = false;
         this.$nextTick(function () {
           this.$el.textContent
 
         })
 
-      }else {
+    }else {
+        if (this.win()) {
+          this.verAdivinanza();
+        }else{
+          alert('You won motherfucker!')
+        }      
 
-        this.verAdivinanza;
-
-      }      
+    }
 
     },
 
@@ -175,17 +186,48 @@ var app = new Vue({
     correcta: function() {
       if(this.adivinanzas[this.numero].res === this.respuesta.toUpperCase()){
         alert('correcto');
+        document.querySelector('#guess').innerHTML = '';
+        this.respuesta = '';
         this.verAdivinanza();
-        this.respuesta = ''
       }else{
-        alert('incorrecto' + this.adivinanzas[this.numero].res);
+        this.adivinanzas[this.numero].cor = false;
+        this.$nextTick(function () {
+          this.$el.textContent
+        })
+        alert('La respuesta correcta era: ' + this.adivinanzas[this.numero].res);
+        document.querySelector('#guess').innerHTML = '';
+        this.respuesta = '';
         this.verAdivinanza();
-        this.respuesta = ''
       }
       
        
-    }
+    },
 
+    win: function(){
+      var count = 0;
+    for (var adivinanza in app.adivinanzas){
+      if(adivinanza, app.adivinanzas[adivinanza].most == false){	
+    count ++;  
+      }	
+    }
+    if(count >= app.adivinanzas.length){
+        return false;
+      }else{
+        return true;
+      }
+    }
   }
 
 })
+
+function show(){
+  document.getElementById('answer').classList.remove('hidden');
+}
+
+function hide(){
+  if (document.getElementById('answer').classList.contains('hidden')) {
+    
+  }else{
+    document.getElementById('answer').className+='hidden';
+  }
+}

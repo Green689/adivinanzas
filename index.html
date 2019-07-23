@@ -13,7 +13,13 @@
 
   <link rel="stylesheet" href="bulma.css">
 
-  <title></title>
+  <title>Adivinanzas</title>
+
+  <style>
+    .hidden{
+      display: none;
+    }
+  </style>
 
 </head>
 
@@ -21,16 +27,16 @@
 
   <div id='neko'>
     <h3>{{ title }}</h3>
-    <button type="button" v-on:click="verAdivinanza" name="button">PULSA</button>
 
     <p id='guess'>
 
     </p>
 
-    <button v-on:click='verPistas'>Pistas!</button>
+    <button v-on:click='verPistas' onclick="show()" onmouseout='hide()'>Pistas!</button>
     <div id='answer'>
 
     </div>
+    <hr>
     <input 
       v-model="respuesta"
       v-on:keyup.enter="correcta"
