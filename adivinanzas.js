@@ -100,11 +100,23 @@ var app = new Vue({
       }
 
     ],
-    numero: 0
+    numero: 0,
+    puntuacion: 0,
+    historial: null,
+    historia: [
+      
+    ]
 
   },
 
   mounted: function(){
+    if(localStorage.getItem('historia')) {
+      try {
+        this.historia = JSON.parse(localStorage.getItem('historia'));
+      } catch(e) {
+        localStorage.removeItem('historia');
+      }
+    }
     this.numeroRandom();
 
     if (this.adivinanzas[this.numero].most) {
@@ -117,11 +129,31 @@ var app = new Vue({
 
         })
 
-    }    
+    }
+
+    this.puntuacion = this.adivinanzas.length * 5;
+    this.$nextTick(function () {
+     this.$el.textContent
+   })    
 
   },
 
   methods:{
+    addHistoria(){
+      if(!this.historial) return;
+      this.historia.push(this.historial  + ' ' + this.puntuacion);
+      this.historial = '';
+      this.saveHistoria();
+
+      document.getElementById('maScore').className+='hidden';
+      document.getElementById('historia').classList.remove('hidden');
+      this.title = "Resultados"
+    },
+
+    saveHistoria(){
+      let parsed = JSON.stringify(this.historia);
+      localStorage.setItem('historia', parsed);
+    },
 
     numeroRandom: function(){
 
@@ -130,6 +162,11 @@ var app = new Vue({
           this.$el.textContent
         })
         
+    },
+
+    removeHistoria(x) {
+      this.historia.splice(x,1);
+      this.saveHistoria();
     },
 
     verAdivinanza: function(){
@@ -150,12 +187,21 @@ var app = new Vue({
         if (this.win()) {
           this.verAdivinanza();
         }else{
-          alert('You won motherfucker!')
+          document.querySelector('#guess').innerHTML = 'Save your score';
+          this.hide();
         }      
 
     }
 
     },
+    
+ hide: function(){
+  
+  document.getElementById('mAdivinanzas').className+='hidden';
+  document.getElementById('maScore').classList.remove('hidden');
+  this.title = "Ingrese su Nickname"
+
+},
 
     verPistas: function(){
       var a = this.numero;
@@ -179,17 +225,68 @@ var app = new Vue({
         })
       }
       else {
-        document.querySelector('#answer').innerHTML = this.adivinanzas[a].pist.pist1.pname + "<br>" + this.adivinanzas[a].pist.pist2.pname + "<br>" + this.adivinanzas[a].pist.pist3.pname;
+       
+        
+        if(this.adivinanzas[a].pist.pist1.pmos === false && this.adivinanzas[a].pist.pist2.pmos === false && this.adivinanzas[a].pist.pist3.pmos === false){
+          document.querySelector('#answer').innerHTML = this.adivinanzas[a].pist.pist1.pname + "<br>" + this.adivinanzas[a].pist.pist2.pname + "<br>" + this.adivinanzas[a].pist.pist3.pname;
+        } else{
+          document.querySelector('#answer').innerHTML = this.adivinanzas[a].pist.pist1.pname + "<br>" + this.adivinanzas[a].pist.pist2.pname + "<br>" + this.adivinanzas[a].pist.pist3.pname;
+          this.adivinanzas[a].pist.pist3.pmos = false;
+          this.$nextTick(function () {
+          this.$el.textContent
+        })
+        }
       }
     },
 
     correcta: function() {
       if(this.adivinanzas[this.numero].res === this.respuesta.toUpperCase()){
-        alert('correcto');
+        if(this.adivinanzas[this.numero].pist.pist1.pmos === false && this.adivinanzas[this.numero].pist.pist2.pmos === false && this.adivinanzas[this.numero].pist.pist3.pmos === false){
+          this.puntuacion = this.puntuacion - 3;
+            this.$nextTick(function () {
+            this.$el.textContent
+          })
+        } else if(this.adivinanzas[this.numero].pist.pist1.pmos === false && this.adivinanzas[this.numero].pist.pist2.pmos === false && this.adivinanzas[this.numero].pist.pist3.pmos === true){
+          this.puntuacion = this.puntuacion - 2;
+            this.$nextTick(function () {
+            this.$el.textContent
+          })
+        }else if(this.adivinanzas[this.numero].pist.pist1.pmos === false && this.adivinanzas[this.numero].pist.pist2.pmos === true && this.adivinanzas[this.numero].pist.pist3.pmos === true){
+          this.puntuacion = this.puntuacion - 1;
+            this.$nextTick(function () {
+            this.$el.textContent
+          })
+        }else if(this.adivinanzas[this.numero].pist.pist1.pmos === true && this.adivinanzas[this.numero].pist.pist2.pmos === true && this.adivinanzas[this.numero].pist.pist3.pmos === true){
+            this.$nextTick(function () {
+            this.$el.textContent
+          })
+        }
+        alert('correcto'); 
         document.querySelector('#guess').innerHTML = '';
         this.respuesta = '';
         this.verAdivinanza();
       }else{
+        if(this.adivinanzas[this.numero].pist.pist1.pmos === false && this.adivinanzas[this.numero].pist.pist2.pmos === false && this.adivinanzas[this.numero].pist.pist3.pmos === false){
+        this.puntuacion = this.puntuacion - 5;
+          this.$nextTick(function () {
+          this.$el.textContent
+        })
+      } else if(this.adivinanzas[this.numero].pist.pist1.pmos === false && this.adivinanzas[this.numero].pist.pist2.pmos === false && this.adivinanzas[this.numero].pist.pist3.pmos === true){
+        this.puntuacion = this.puntuacion - 5;
+          this.$nextTick(function () {
+          this.$el.textContent
+        })
+      }else if(this.adivinanzas[this.numero].pist.pist1.pmos === false && this.adivinanzas[this.numero].pist.pist2.pmos === true && this.adivinanzas[this.numero].pist.pist3.pmos === true){
+        this.puntuacion = this.puntuacion - 5;
+          this.$nextTick(function () {
+          this.$el.textContent
+        })
+      }else if(this.adivinanzas[this.numero].pist.pist1.pmos === true && this.adivinanzas[this.numero].pist.pist2.pmos === true && this.adivinanzas[this.numero].pist.pist3.pmos === true){
+        this.puntuacion = this.puntuacion - 5;
+          this.$nextTick(function () {
+          this.$el.textContent
+        })
+      }
         this.adivinanzas[this.numero].cor = false;
         this.$nextTick(function () {
           this.$el.textContent

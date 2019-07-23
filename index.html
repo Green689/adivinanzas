@@ -27,7 +27,24 @@
 
   <div id='neko'>
     <h3>{{ title }}</h3>
+    <div id="historia" class='hidden'>
+    <ul>
+          <li
+          v-for="(todo, n) in historia"
+        >{{ todo }}<button @click="removeHistoria (n)">X</button></li>
+    </ul>
+    <a class="button" href="index.html">Jugar de nuevo</a>
+    </div>
+    <div id='maScore' class='hidden'>
 
+      <input 
+      v-model="historial"
+      v-on:keyup.enter="addHistoria"
+      placeholder="Ingrese su nombre"
+    >
+
+    </div>
+    <div id='mAdivinanzas'>
     <p id='guess'>
 
     </p>
@@ -42,6 +59,7 @@
       v-on:keyup.enter="correcta"
       placeholder="Respuesta"
     >
+    </div>
 
   </div>
   
