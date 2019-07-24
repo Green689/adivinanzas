@@ -1,73 +1,153 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <link rel="stylesheet" href="bulma.css">
+ <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
-  <title>Adivinanzas</title>
+<link rel="stylesheet" href="bulma.css">
+
+ <title>Adivinanzas</title>
+
+  <br>
+
+
 
   <style>
+
     .hidden{
+
       display: none;
+
     }
+
   </style>
+
+
 
 </head>
 
+
+
 <body>
 
-  <div id='neko'>
-    <h3>{{ title }}</h3>
-    <div id="historia" class='hidden'>
-    <ul>
-          <li
-          v-for="(todo, n) in historia"
-        >{{ todo }}<button @click="removeHistoria (n)">X</button></li>
-    </ul>
-    <a class="button" href="index.html">Jugar de nuevo</a>
-    </div>
-    <div id='maScore' class='hidden'>
 
-      <input 
-      v-model="historial"
-      v-on:keyup.enter="addHistoria"
-      placeholder="Ingrese su nombre"
-    >
 
-    </div>
+  <div id='neko' style="margin-top: 120px">
+
+
+
+    <div class="container">
+
+    <div class="notification is-dark">
+
+      <br><br><br>
+
+    <center><div style="text-align:center; border-radius:19px; border: 2px solid; width:300px; height:auto; font-size:30px; background:#03a1fc">{{ title }}!</div></center>
+
+    <hr>
+
+
+
     <div id='mAdivinanzas'>
-    <p id='guess'>
+
+    <p style="text-align:center; font-family:Montserrat" class="subtitle is-4" id='guess'>
+
+
 
     </p>
 
-    <button v-on:click='verPistas' onclick="show()" onmouseout='hide()'>Pistas!</button>
-    <div id='answer'>
+    <center>
 
-    </div>
-    <hr>
-    <input 
+    <input style="width:50%" class="input is-centered is-primary is-rounded"
+
       v-model="respuesta"
+
       v-on:keyup.enter="correcta"
+
       placeholder="Respuesta"
-    >
+
+    ></center>
+
+<br>
+
+    <button style="left:25%; font-family:Montserrat; font-size:18px" class="button is-primary" v-on:click='verPistas' onclick="show()" onmouseout='hide()'>Pistas!</button><br><br>
+
+    <div style="margin-left:25%; font-family:Montserrat" id='answer'>
+
     </div>
 
   </div>
-  
 
+
+
+
+
+    <div id="historia" class='hidden'>
+
+      <span class='columns'>
+
+        <span class='column'></span>
+
+        <span class='column'>
+
+      <ul>
+
+        <li
+
+        v-for="(todo, n) in historia"
+
+        ><span class="level"><span class="level-right">{{ todo }}</span><span class="level-left"><button @click="removeHistoria (n)">x</button></span></span></li>
+
+      </ul>
+      <br><br>
+      <a class="button is-info" href="index.html">Jugar de nuevo</a>
+
+    </span>
+
+    <span class='column'></span>
+
+  </span>
+
+    </div>
+
+
+
+
+
+    <div id='maScore' class='hidden'>
+
+
+<center>
+      <input style="width:50%" class='input is-centered is-primary is-rounded'
+
+      v-model="historial"
+
+      v-on:keyup.enter="addHistoria"
+
+      placeholder="Ingrese su nombre"
+
+      >
+    </center>
+
+
+    <br><br><br>
+
+    </div>
+
+  </div>
+
+  </div>
+
+</div>
   <script src='vue.js'></script>
-
   <script src='adivinanzas.js'></script>
-
 </body>
-
 </html>
